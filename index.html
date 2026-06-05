@@ -540,13 +540,14 @@
       </div>
       <div class="field">
         <label>Custo da impressora</label>
-        <div class="fixed-cost" role="note" aria-label="Custo fixo de R$ 5,00 por hora de impressão, composto por energia elétrica, manutenção, depreciação, fatiamento e contingência de falhas">
+        <div class="fixed-cost" role="note" aria-label="Custo de impressora: R$ 3,50 por hora variável mais R$ 15,00 de setup fixo por peça">
           <div class="fixed-cost-header">
             <span class="lock-icon" aria-hidden="true">🔒</span>
-            <span class="fixed-cost-text">custo fixo por hora</span>
-            <span class="fixed-cost-value">R$ 5,00/h</span>
+            <span class="fixed-cost-text">variável + setup</span>
+            <span class="fixed-cost-value" style="font-size:13px">R$ 3,50/h + R$ 15/peça</span>
           </div>
           <div class="fixed-cost-breakdown" aria-hidden="true">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);opacity:0.7;margin-bottom:4px;letter-spacing:0.5px">VARIÁVEL — por hora de impressão</div>
             <div class="fc-item">
               <span class="fc-item-label">⚡ Energia elétrica<br><span style="font-size:10px;opacity:0.6">impressora 200W · Elektro Bertioga R$0,796/kWh</span></span>
               <span class="fc-item-val">≈ R$ 0,16</span>
@@ -564,16 +565,21 @@
               <span class="fc-item-val">≈ R$ 1,00</span>
             </div>
             <div class="fc-item">
-              <span class="fc-item-label">📐 Modelagem &amp; fatiamento<br><span style="font-size:10px;opacity:0.6">~30min de preparo rateados por peça · R$30/h</span></span>
-              <span class="fc-item-val">≈ R$ 1,50</span>
-            </div>
-            <div class="fc-item">
               <span class="fc-item-label">⚠️ Contingência de falhas<br><span style="font-size:10px;opacity:0.6">~10% das impressões falham — retrabalho e material</span></span>
               <span class="fc-item-val">≈ R$ 0,76</span>
             </div>
+            <div class="fc-total-row" style="margin-bottom:10px">
+              <span class="fc-total-label">TOTAL VARIÁVEL / HORA</span>
+              <span class="fc-total-val">R$ 3,50</span>
+            </div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);opacity:0.7;margin-bottom:4px;letter-spacing:0.5px">FIXO — por peça (independente do tempo)</div>
+            <div class="fc-item">
+              <span class="fc-item-label">📐 Modelagem &amp; fatiamento<br><span style="font-size:10px;opacity:0.6">~30min de preparo por peça · R$30/h — custo fixo de setup</span></span>
+              <span class="fc-item-val">R$ 15,00</span>
+            </div>
             <div class="fc-total-row">
-              <span class="fc-total-label">TOTAL / HORA</span>
-              <span class="fc-total-val">R$ 5,00</span>
+              <span class="fc-total-label">SETUP FIXO / PEÇA</span>
+              <span class="fc-total-val">R$ 15,00</span>
             </div>
           </div>
         </div>
@@ -676,7 +682,7 @@
       </div>
       <div class="breakdown-item" role="listitem">
         <div>
-          <div class="name">IMPRESSORA (R$ 5/h)</div>
+          <div class="name">IMPRESSORA</div>
           <div class="bar-container" aria-hidden="true"><div class="bar printer" id="barPrinter" style="width:0%"></div></div>
         </div>
         <div class="detail" id="detailPrinter" aria-label="Detalhe da impressora">—</div>
@@ -765,11 +771,12 @@
     const rentMonthly  = v('rentMonthly');
     const rentHours    = v('rentMonthlyHours') || 160;
 
-    const printerRate  = 5;
+    const printerRateHour = 3.50;  // variável: energia + PC + manutenção + depreciação + contingência
+    const printerSetup    = 15.00; // fixo por peça: modelagem & fatiamento (~30min × R$30/h)
     const rentPerHour  = rentMonthly / rentHours;
 
     const costFilament = (weightUsed / spoolWeight) * spoolPrice;
-    const costPrinter  = printHours * printerRate;
+    const costPrinter  = printHours * printerRateHour + printerSetup;
     const costLabor    = postHours * laborRate;
     const costExtras   = extraMat;
     const costShipping = shipping;
@@ -792,7 +799,7 @@
     document.getElementById('markupPct').textContent    = markupPct;
 
     document.getElementById('detailFilament').textContent = weightUsed + 'g de ' + spoolWeight + 'g';
-    document.getElementById('detailPrinter').textContent  = printHours + 'h × R$ 5,00';
+    document.getElementById('detailPrinter').textContent  = printHours + 'h × R$3,50 + R$15 setup';
     document.getElementById('detailLabor').textContent    = postHours + 'h × R$ ' + fmt(laborRate);
     document.getElementById('detailRent').textContent     = 'R$' + fmt(rentPerHour) + '/h (÷ ' + rentHours + 'h/mês)';
 
