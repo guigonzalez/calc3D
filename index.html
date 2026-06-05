@@ -636,12 +636,12 @@
         </div>
       </div>
       <div class="field">
-        <label for="jobsPerMonth">Peças impressas por mês</label>
+        <label for="jobsPerMonth">Peças em estoque na loja</label>
         <div class="input-wrap">
-          <input type="number" id="jobsPerMonth" placeholder="20" min="1" step="1" value="20" inputmode="decimal" aria-label="Quantidade estimada de peças impressas por mês">
+          <input type="number" id="jobsPerMonth" placeholder="20" min="1" step="1" value="20" inputmode="decimal" aria-label="Média de peças em estoque na loja">
           <span class="unit" aria-hidden="true">pç</span>
         </div>
-        <span class="hint">média de jobs concluídos no mês</span>
+        <span class="hint">média de peças expostas/em estoque — quanto maior o giro, menor o rateio</span>
       </div>
     </div>
   </section>
@@ -801,7 +801,7 @@
     document.getElementById('detailFilament').textContent = weightUsed + 'g de ' + spoolWeight + 'g';
     document.getElementById('detailPrinter').textContent  = printHours + 'h × R$3,50 + R$15 setup';
     document.getElementById('detailLabor').textContent    = postHours + 'h × R$ ' + fmt(laborRate);
-    document.getElementById('detailRent').textContent     = 'R$' + fmt(rentPerJob) + '/peça (÷ ' + jobsPerMonth + ' peças/mês)';
+    document.getElementById('detailRent').textContent     = 'R$' + fmt(rentPerJob) + '/peça (÷ ' + jobsPerMonth + ' em estoque)';
 
     if (totalCost > 0) {
       setTimeout(() => {
